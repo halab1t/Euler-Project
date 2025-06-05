@@ -1,17 +1,36 @@
+function is_prime(num)
+	if num <= 1
+		return false, 1
+	end
+
+	for i in 2:floor(Int, sqrt(num))
+		if num % i ==0
+			return false, i
+		end
+	end
+
+	return true, -1
+
+end
+
 function factor(num)
+    if num == 1
+	    return [1]
+    end
+
     prime, factor = is_prime(num)
-    prime_factors = []
-    nonprime_factors = []
+    factors = [1, num]
+    prev_factor = 1
 
     while !prime
+	prev_factor *= factor 
         num = div(num, factor)
-        push!(nonprime_factors, num)
-        push!(prime_factors, factor)
+        push!(factors, num)
+        push!(factors, prev_factor)
 
         prime, factor = is_prime(num)
     end
 
-    push!(prime_factors, num)
-    return prime_factors, nonprime_factors
+    return factors
 end
 
